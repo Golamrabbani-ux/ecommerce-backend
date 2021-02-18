@@ -49,9 +49,9 @@ exports.productsBySlug = (req, res) => {
                 .exec((err, products) => {
                     if (err) return res.status(400).json({ err });
 
-                    const productsByPrice={
+                    const productsByPrice = {
                         under5k: products.filter(product => product.price <= 5000),
-                        under10k: products.filter(product => product.price >= 5000 && product.price <= 10000 ),
+                        under10k: products.filter(product => product.price >= 5000 && product.price <= 10000),
                         under15k: products.filter(product => product.price >= 10000 && product.price <= 15000),
                         under20k: products.filter(product => product.price >= 15000 && product.price <= 20000),
                         up20k: products.filter(product => product.price > 20000)
@@ -63,4 +63,17 @@ exports.productsBySlug = (req, res) => {
                 })
 
         })
+}
+
+exports.getProductDetailsById = (req, res) => {
+    const { productId } = req.params;
+    if (productId) {
+        Product.findById({ _id: productId })
+            .exec((error, product) => {
+                if (error) return res.status(200).json({ error })
+                else if (product) return res.status(200).json({ product })
+                else return res.status(404).json({ message: 'Product Not Found' })
+            })
+    }
+    else return res.status(400).json({ message: 'Params Required' })
 }

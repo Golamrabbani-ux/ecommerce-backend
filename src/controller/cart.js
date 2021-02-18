@@ -21,7 +21,7 @@ exports.addItemsToCart = (req, res) => {
                 .exec((error, _cart) =>{
                     if(error) return res.status(400).json({error});
                     if(_cart){
-                        return res.status(201).json({cart: _cart, msg: "quantityAdde"})
+                        return res.status(201).json({cart: _cart, msg: "quantityAdded"})
                     }
                 })
             }
