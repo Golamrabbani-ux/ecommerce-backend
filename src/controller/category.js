@@ -63,15 +63,15 @@ exports.updateCategory = async (req, res) => {
     }
 }
 
-exports.deleteCategories = async(req, res) =>{
-    const {ids} = req.body.payload;
+exports.deleteCategories = async (req, res) => {
+    const { ids } = req.body.payload;
     const deleteCategoriesList = [];
-    for(let i = 0; i<ids.length; i++){
-        const deleteCategory = await Category.findByIdAndDelete({_id: ids[i]._id});
+    for (let i = 0; i < ids.length; i++) {
+        const deleteCategory = await Category.findByIdAndDelete({ _id: ids[i]._id });
         deleteCategoriesList.push(deleteCategory)
     }
-    if(deleteCategoriesList.length === ids.length){
-        res.status(201).json({message: "Categories remeved successfully"})
+    if (deleteCategoriesList.length === ids.length) {
+        res.status(201).json({ message: "Categories remeved successfully" })
     }
 }
 
@@ -88,19 +88,10 @@ exports.getCategories = (req, res) => {
 }
 
 exports.categoryOption = (req, res) => {
-    User.findById({ _id: req.user._id })
-        .exec((error, user) => {
-            if (error) return res.status(400).json({ error });
-            if (user.role === "admin") {
-                Category.find({})
-                    .exec((err, cat) => {
-                        if (err) return res.status(400).json({ err });
-                        res.status(200).json({ cat })
-                    })
-            }
-            else {
-                return res.status(400).json({ message: "Admin access only" })
-            }
+    Category.find({})
+        .exec((err, cat) => {
+            if (err) return res.status(400).json({ err });
+            res.status(200).json({ cat })
         })
 }
 

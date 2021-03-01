@@ -47,7 +47,6 @@ exports.page = (req, res) => {
 
 exports.getPage = (req, res) => {
     const { category, type } = req.params;
-    console.log(req.params);
     if (type === 'page') {
         Page.findOne({ category: category }).exec((err, page) => {
             if (err) return res.status(400).json({ err });

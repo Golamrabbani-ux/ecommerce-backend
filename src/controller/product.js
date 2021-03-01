@@ -4,11 +4,12 @@ const Product = require('../models/product')
 const Category = require('../models/category')
 
 exports.createProduct = (req, res) => {
+    console.log(req.body);
     User.findById({ _id: req.user._id })
         .exec((error, user) => {
             if (error) return res.status(400).json({ error })
             if (user.role === 'admin') {
-                const { productName, price, quantity, description, category } = req.body;
+                const { productName, price, quantity, description, category, ram, rom, sdCard, battery, processor, warranty, seller, display,appSupported, operatingSupported,refresrate,power, nosie, wifiEnabled } = req.body;
                 let productPictures = [];
                 if (req.files.length > 0) {
                     productPictures = req.files.map(file => {
@@ -18,12 +19,22 @@ exports.createProduct = (req, res) => {
                 const product = new Product({
                     productName,
                     slug: slugify(productName),
-                    price,
-                    quantity,
-                    description,
-                    category,
-                    productPictures,
-                    creatBy: user._id
+                    price, quantity, description,category,
+                    productPictures, creatBy: user._id,
+                    ram: ram || "", 
+                    rom: rom || "",
+                    sdCard: sdCard || "",
+                    battery: battery || "",
+                    processor: processor || "",
+                    warranty: warranty || "",
+                    seller: seller || "",
+                    display: display || "",
+                    appSupported: appSupported || "", 
+                    operatingSupported: operatingSupported || "", 
+                    refresrate: refresrate || "",  
+                    power: power || "",
+                    nosie: nosie || "", 
+                    wifiEnabled: wifiEnabled || ""
                 })
                 product.save((error, data) => {
                     if (error) return res.status(400).json({ error })

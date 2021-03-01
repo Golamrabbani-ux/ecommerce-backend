@@ -18,13 +18,6 @@ const addressSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  address: {
-    type: String,
-    required: true,
-    trim: true,
-    min: 10,
-    max: 100,
-  },
   region: {
     type: String,
     required: true,
@@ -42,7 +35,7 @@ const addressSchema = new mongoose.Schema({
   addressType: {
     type: String,
     required: true,
-    enum: ["Home", "office"],
+    enum: ["Home", "Office"],
     required: true,
   },
 });
