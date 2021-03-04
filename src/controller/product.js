@@ -4,7 +4,6 @@ const Product = require('../models/product')
 const Category = require('../models/category')
 
 exports.createProduct = (req, res) => {
-    // console.log(req.body);
     User.findById({ _id: req.user._id })
         .exec((error, user) => {
             if (error) return res.status(400).json({ error })
@@ -61,7 +60,7 @@ exports.productsBySlug = (req, res) => {
             .exec((error, category) => {
                 if (error) return res.status(400).json({ error });
                 Product.find({ category: category._id })
-                    .populate({path:"category", select: "_id, name"})
+                    .populate({path:"category"})
                     .exec((err, products) => {
                         if (err) return res.status(400).json({ err });
 

@@ -31,7 +31,6 @@ exports.homePageBannerUpdate = (req, res) =>{
     HomePageBanner.findByIdAndUpdate({_id: req.params.id}, bannerObj, {new: true}, (error, bannerInfo)=>{
         if (error) return res.status(400).json({ error });
         if (bannerInfo) {
-            console.log(bannerInfo);
             return res.status(201).json({ bannerInfo })
         }
     })

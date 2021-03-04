@@ -3,7 +3,6 @@ const slugify = require('slugify');
 const User = require('../models/auth')
 
 exports.addCategory = (req, res) => {
-    // console.log("req.body", req.body);
     User.findById({ _id: req.user._id })
         .exec((error, user) => {
             if (user.role === 'admin') {
@@ -81,7 +80,6 @@ exports.getCategories = (req, res) => {
             if (error) return res.status(400).json({ error });
             if (categories) {
                 const cateList = createCategories(categories)
-                // console.log("cat", cateList);
                 return res.status(200).json({ cateList })
             }
         })

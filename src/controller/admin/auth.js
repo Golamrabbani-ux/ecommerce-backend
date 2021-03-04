@@ -21,7 +21,6 @@ exports.signup = (req, res) => {
 
             _user.save((error, userData) => {
                 if (error) {
-                    console.log(error);
                     return res.status(400).json({
                         message: 'Something went wrong'
                     })
@@ -73,6 +72,5 @@ exports.signin = (req, res) => {
 }
 
 exports.signout = (req, res)=>{
-    // console.log(req.headers);
     res.status(200).json({message: 'Oke'})
 }
