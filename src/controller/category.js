@@ -16,7 +16,7 @@ exports.addCategory = (req, res) => {
                     categoryObj.parentId = req.body.parentId
                 }
                 if (req.file) {
-                    categoryObj.categoryImage = process.env.API + '/public/' + req.file.filename;
+                    categoryObj.categoryImage = req.file.filename;
                 }
                 const cat = new Category(categoryObj)
                 cat.save((error, category) => {
@@ -114,6 +114,7 @@ function createCategories(categories, parentId = null) {
             slug: cate.slug,
             parentId: cate.parentId,
             type: cate.type,
+            img: cate.categoryImage,
             children: createCategories(categories, cate._id),
         });
     }
