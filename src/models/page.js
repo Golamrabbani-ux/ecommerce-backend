@@ -13,13 +13,6 @@ const pageSchema = new mongoose.Schema({
     banners: [
         {
             img: {type: String},
-            navigateTo: {type: String}
-        },
-    ],
-    productsPictures: [
-        {
-            img: {type: String},
-            navigateTo: {type: String}
         },
     ],
     category: {

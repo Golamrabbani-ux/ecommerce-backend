@@ -2,6 +2,26 @@ const Order = require('../models/order');
 
 exports.addOrder = (req, res) => {
     req.body.user = req.user._id
+    req.body.orderStatus = [
+        {
+            type: "ordered",
+            date: new Date(),
+            isCompleted: true,
+        },
+        {
+            type: "packed",
+            isCompleted: false,
+        },
+        {
+            type: "shipped",
+            isCompleted: false,
+        },
+        {
+            type: "delivered",
+            isCompleted: false,
+        },
+    ];
+    // console.log(req.body);
     const order = new Order(req.body)
     order.save((error, order) => {
         if (error) return res.status(400).json({ error });

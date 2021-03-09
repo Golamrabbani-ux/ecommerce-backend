@@ -16,6 +16,7 @@ const addressRoutes = require('./routes/address');
 const orderRoutes = require('./routes/order');
 const homePageRoutes = require('./routes/admin/homePageBanner');
 const brandsRoutes = require('./routes/admin/brand');
+const orderAdminRoutes = require('./routes/admin/order.admin')
 
 const app = express()
 app.use(cors())
@@ -41,6 +42,7 @@ app.use('/api', addressRoutes)
 app.use('/api', orderRoutes)
 app.use('/api', homePageRoutes)
 app.use('/api', brandsRoutes)
+app.use('/api', orderAdminRoutes)
 
 
 //Mogodb Database Connected

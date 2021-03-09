@@ -6,20 +6,14 @@ exports.page = (req, res) => {
         .exec((error, user) => {
             if (error) return res.status(400).json({ error })
             if (user.role === "admin") {
-                const { productsPictures, banners } = req.files;
-                if (productsPictures.length > 0) {
-                    req.body.productsPictures = productsPictures.map((product) => ({
-                        img: `${process.env.API}/public/${product.filename}`,
-                        navigateTo: `/bannerClicked?categoryId=${req.body.category}&type=${req.body.type}`
-                    }))
-                }
+                const { banners } = req.files;
                 if (banners.length > 0) {
                     req.body.banners = banners.map((banner) => ({
-                        img: `${process.env.API}/public/${banner.filename}`,
-                        navigateTo: `/productsClicked?categoryId=${req.body.category}&type=${req.body.type}`
+                        img: banner.filename,
                     }))
                 }
                 req.body.createdBy = req.user._id;
+                res.status(201).json({body: req.body})
                 Page.findOne({ category: req.body.category })
                     .exec((err, page) => {
                         if (err) return res.status(200).json({ err });
