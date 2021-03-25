@@ -94,9 +94,12 @@ exports.getProductDetailsById = (req, res) => {
     const { productId } = req.params;
     if (productId) {
         Product.findById({ _id: productId })
+            .populate("category", "_id, name slug")
             .exec((error, product) => {
                 if (error) return res.status(200).json({ error })
-                else if (product) return res.status(200).json({ product })
+                else if (product){
+                    return res.status(200).json({ product })
+                }
                 else return res.status(404).json({ message: 'Product Not Found' })
             })
     }

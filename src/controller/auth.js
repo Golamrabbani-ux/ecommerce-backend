@@ -20,13 +20,19 @@ exports.signup = (req, res) => {
             })
 
             _user.save((error, userData) => {
+                const { _id, firstName, lastName, userName, fullName, role, email } = userData;
+                const token = jwt.sign({ _id }, process.env.JWT_TOKEN, { expiresIn: '1d' });
                 if (error) {
                     return res.status(400).json({
-                        message: 'Something went wrong'
+                        error
                     })
                 }
                 else {
                     return res.status(201).json({
+                        token,
+                        user: {
+                            firstName, lastName, userName, fullName, role, email
+                        },
                         message: 'User Create Successfully'
                     })
                 }
@@ -39,30 +45,30 @@ exports.signin = (req, res) => {
             if (error) return res.status(400).json({ error })
             if (user) {
                 user.authenticate(req.body.password)
-                .then(result => {
-                    if(result){
-                        const {_id, firstName, lastName, userName, fullName, role, email} = user;
-                        const token = jwt.sign({_id}, process.env.JWT_TOKEN, { expiresIn: '1d' });
-                        return res.status(200).json({
-                            token,
-                            user:{
-                                firstName, lastName, userName, fullName, role, email
-                            }
-                        })
-                    }
-                    else{
-                        return res.status(400).json({message: 'Invalid Password'})
-                    }
-                })
-                .catch(err => {
-                    if(err){
-                        return res.status(400).json({err})
-                    }
-                })
+                    .then(result => {
+                        if (result) {
+                            const { _id, firstName, lastName, userName, fullName, role, email } = user;
+                            const token = jwt.sign({ _id }, process.env.JWT_TOKEN, { expiresIn: '1d' });
+                            return res.status(200).json({
+                                token,
+                                user: {
+                                    firstName, lastName, userName, fullName, role, email
+                                }
+                            })
+                        }
+                        else {
+                            return res.status(400).json({ message: 'Invalid Password' })
+                        }
+                    })
+                    .catch(err => {
+                        if (err) {
+                            return res.status(400).json({ err })
+                        }
+                    })
             }
-            else{
+            else {
                 return res.status(400).json({
-                    message: 'Something went wrong'
+                    message: 'Incorrect Email'
                 })
             }
         })
