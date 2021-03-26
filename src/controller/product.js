@@ -59,7 +59,8 @@ exports.productsBySlug = (req, res) => {
         Category.findOne({ slug: slug })
             .exec((error, category) => {
                 if (error) return res.status(400).json({ error });
-                Product.find({ category: category._id })
+                else if(category){
+                    Product.find({ category: category._id })
                     .populate({path:"category"})
                     .exec((err, products) => {
                         if (err) return res.status(400).json({ err });
@@ -76,19 +77,12 @@ exports.productsBySlug = (req, res) => {
                             productsByPrice
                         })
                     })
-
+                }
+                else return res.status(404).json({ message: `${slug} is not found` })
             })
     }
 }
 
-// exports.getSumsungProduct = (req, res) =>{
-//     Product.find({category: "603df15e4066620804d24d87"}).exec((error, sumsung)=>{
-//         if (error) return res.status(200).json({ error });
-//         if(sumsung){
-//             return res.status(200).json({ sumsung })
-//         }
-//     })
-// }
 
 exports.getProductDetailsById = (req, res) => {
     const { productId } = req.params;

@@ -20,7 +20,6 @@ const upload = multer({ storage: storage });
 
 route.post('/product/create', requireSignin, upload.array('productPictures'), createProduct)
 route.get('/products/:slug', productsBySlug)
-// route.get('/product/sumsung', getSumsungProduct)
 route.get('/allProducts/:productId', getProductDetailsById)
 
 
