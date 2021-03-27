@@ -1,6 +1,8 @@
 const User = require('../../models/auth');
 const Brand = require('../../models/brand');
 const slugify = require("slugify");
+const fs = require("fs");
+const path = require('path');
 
 exports.addBrand = (req, res) => {
     const { name, cid, type } = req.body;
@@ -31,29 +33,31 @@ exports.addBrand = (req, res) => {
             }
         })
     }
-    else{
-        return res.status(400).json({message: "All Filed is not complected"})
+    else {
+        return res.status(400).json({ message: "All Filed is not complected" })
     }
 }
-exports.deleteBrand = (req, res) =>{
-    User.findById({_id: req.user._id}).exec((error, user)=>{
-        if(error) return res.status(400).json({error});
-        if(user.role === 'admin'){
-            Brand.findByIdAndDelete({_id: req.params.id}).exec((error, brandInfo)=>{
-                if(error) return res.status(400).json({error});
-                if(brandInfo){
-                    res.status(200).json({brandInfo, message:'Delete Successfully'});
+
+
+exports.deleteBrand = (req, res) => {
+    User.findById({ _id: req.user._id }).exec((error, user) => {
+        if (error) return res.status(400).json({ error });
+        if (user.role === 'admin') {
+            Brand.findByIdAndDelete({ _id: req.params.id }).exec((error, brandInfo) => {
+                if (error) return res.status(400).json({ error });
+                if (brandInfo) {
+                    res.status(200).json({ brandInfo, message: 'Delete Successfully' });
                 }
             })
         }
-        else{
-            return res.status(400).json({message: "Admin access only"})
+        else {
+            return res.status(400).json({ message: "Admin access only" })
         }
     })
 }
-exports.getBrands = (req, res) =>{
-    Brand.find({}).exec((error, brandsInfo) =>{
-        if(error) return res.status(400).json({error});
-        if(brandsInfo) return res.status(200).json({brandsInfo})
+exports.getBrands = (req, res) => {
+    Brand.find({}).exec((error, brandsInfo) => {
+        if (error) return res.status(400).json({ error });
+        if (brandsInfo) return res.status(200).json({ brandsInfo })
     })
 }

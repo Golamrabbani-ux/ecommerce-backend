@@ -26,7 +26,7 @@ const brandSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref:'User',
         required: true
-    }
+    },
 }, {timestamps: true})
 
 module.exports = mongoose.model('Brands', brandSchema)
